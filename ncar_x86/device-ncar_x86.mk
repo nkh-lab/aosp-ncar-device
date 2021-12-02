@@ -1,0 +1,1 @@
+$(call inherit-product-if-exists, vendor/nkh-lab/genivi-capi-someip-examples/aosp/config.mk)

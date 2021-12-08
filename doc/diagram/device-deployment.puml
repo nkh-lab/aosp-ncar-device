@@ -1,56 +1,78 @@
 @startuml
 
-legend top left
+legend left
+    Legend:
     | Color | Type |
     |<#LightGreen>| Android Platform |
+    |<#LightBlue>| Vendor |
 endlegend
 
 rectangle lunch #black;text:white [
-$ . ./build/envsetup.sh
-$ lunch
-  ...
-  59. ncar_x86-userdebug
-  ...
+    $ . ./build/envsetup.sh
+    $ lunch
+    ...
+      59. ncar_x86-userdebug
+    ...
 ]
-
+    
 ' Android Platform
-folder generic_car_common_overlay #LightGreen[
-device/generic/car/common/overlay
+folder generic_car_common_overlay #LightGreen [
+    device/generic/car/common/overlay
 ]
 
 file aosp_car_emulator.mk #LightGreen [
-aosp_car_emulator.mk
+    aosp_car_emulator.mk
 
-device/generic/car/emulator/
+    device/generic/car/emulator/
 ]
+
 file aosp_x86.mk #LightGreen [
-aosp_x86.mk 
+    aosp_x86.mk 
 
-build/target/product/
+    build/target/product/
 ]
-file aosp_BoardConfig.mk #LightGreen [
-BoardConfig.mk
 
-device/generic/car/generic_car_x86/
+file aosp_BoardConfig.mk #LightGreen [
+    BoardConfig.mk
+
+    device/generic/car/generic_car_x86/
 ]
 
 ' New device stuff
 folder ncar [
-device/nkh-lab/ncar/
+    device/nkh-lab/ncar/
 ]
 
 file AndroidProducts.mk
 file ncar_x86.mk
-file BoardConfig.mk [
-ncar_x86/BoardConfig.mk
+folder ncar_x86
+file BoardConfig.mk
+file device_ncar_x86.mk [
+    device-ncar_x86.mk
 ]
 
-note top of AndroidProducts.mk : Start point to add a new device
+note top of AndroidProducts.mk : Start point to add a new device.
+note top of device_ncar_x86.mk : Point to configure and extend a new device.
+
+' Vendor stuff
+folder vendor  #LightBlue [
+    vendor/nkh-lab/genivi-capi-someip-examples/aosp
+]
+
+file config.mk #LightBlue [
+    config.mk
+
+    PRODUCT_PACKAGES += Interface1-Service
+    PRODUCT_PACKAGES += Interface1-Client
+
+    BOARD_SEPOLICY_DIRS += vendor/nkh-lab/genivi-capi-someip-examples/aosp/sepolicy
+]
 
 ncar -down-> AndroidProducts.mk : contains
 ncar -down-> ncar_x86.mk : contains
-ncar -down-> BoardConfig.mk : contains
-
+ncar -down-> ncar_x86 : contains
+ncar_x86 -down-> BoardConfig.mk : contains
+ncar_x86 -down-> device_ncar_x86.mk : contains
 
 AndroidProducts.mk -> ncar_x86.mk : PRODUCT_MAKEFILES
 AndroidProducts.mk -left-> lunch : COMMON_LUNCH_CHOICES
@@ -59,7 +81,11 @@ ncar_x86.mk --> generic_car_common_overlay : PRODUCT_PACKAGE_OVERLAYS
 ncar_x86.mk --> aosp_car_emulator.mk : inherit-product
 ncar_x86.mk --> aosp_x86.mk : inherit-product
 ncar_x86.mk -right-> BoardConfig.mk : PRODUCT_DEVICE
+ncar_x86.mk -right-> device_ncar_x86.mk : inherit-product
 
 BoardConfig.mk --> aosp_BoardConfig.mk : include
+
+vendor --> config.mk : contains
+device_ncar_x86.mk -right-> config.mk : inherit-product-if-exists
 
 @enduml 

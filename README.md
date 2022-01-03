@@ -1,4 +1,4 @@
-# aosp-device-ncar
+# aosp-ncar-device
 
 Project for adding new `ncar_x86` device to AOSP within [NCAR - Android Automotive Emulator Project](https://github.com/nkh-lab/aosp-ncar-manifest).
 

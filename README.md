@@ -11,6 +11,6 @@ The following diagram shows all mk files depedencies for `ncar_x86` device:
 
 ![](doc/diagram/ncar_x86.svg)
 
-Link to full size image
+[Link to full size image](https://raw.githubusercontent.com/nkh-lab/aosp-ncar-device/master/doc/diagram/ncar_x86.svg)
 
 This diagram was built using [aosp-devicemk-parser](https://github.com/nkh-lab/aosp-devicemk-parser) tool.

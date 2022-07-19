@@ -1,3 +1,7 @@
-$(call inherit-product-if-exists, vendor/nkh-lab/car-api-hello-world/car-api-hello-world.mk)
-$(call inherit-product-if-exists, vendor/nkh-lab/genivi-capi-someip-examples/aosp/config.mk)
-$(call inherit-product-if-exists, vendor/nkh-lab/interfaces/automotive/vehicle/vehicle-hal.mk)
+PRODUCT_PACKAGE_OVERLAYS := device/generic/car/common/overlay
+
+$(call inherit-product, device/generic/car/emulator/aosp_car_emulator.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_x86.mk)
+
+# To fix Audio HAL Error - "No device HAL manifest: No such device"
+EMULATOR_VENDOR_NO_SOUND := true

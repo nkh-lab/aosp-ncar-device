@@ -1,3 +1,5 @@
+PRODUCT_PACKAGE_OVERLAYS += device/nkh-lab/ncar/ncar_hikey960/overlay
+
 # ncar extensions and configurations
 $(call inherit-product, device/nkh-lab/ncar/ncar_hikey960/device-ncar_hikey960.mk)
 $(call inherit-product, device/nkh-lab/ncar/common/ncar-common.mk)
